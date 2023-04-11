@@ -125,7 +125,7 @@ train_dataloader = dict(
         ann_file='path/to/your/train/json',
         data_prefix=dict(img='path/to/your/train/img'),
         # specify the new dataset meta information config file
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 
@@ -137,7 +137,7 @@ val_dataloader = dict(
         ann_file='path/to/your/val/json',
         data_prefix=dict(img='path/to/your/val/img'),
         # specify the new dataset meta information config file
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 

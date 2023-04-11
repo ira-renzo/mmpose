@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 from .aic_dataset import AicDataset
+from .breaststroke_dataset import BreaststrokeDataset
 from .coco_dataset import CocoDataset
 from .crowdpose_dataset import CrowdPoseDataset
 from .jhmdb_dataset import JhmdbDataset
@@ -13,5 +14,5 @@ from .posetrack18_video_dataset import PoseTrack18VideoDataset
 __all__ = [
     'CocoDataset', 'MpiiDataset', 'MpiiTrbDataset', 'AicDataset',
     'CrowdPoseDataset', 'OCHumanDataset', 'MhpDataset', 'PoseTrack18Dataset',
-    'JhmdbDataset', 'PoseTrack18VideoDataset'
+    'JhmdbDataset', 'PoseTrack18VideoDataset', 'BreaststrokeDataset'
 ]

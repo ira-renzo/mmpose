@@ -190,7 +190,7 @@ train_dataloader = dict(
         data_root='root/of/your/train/data',
         ann_file='path/to/your/train/json',
         data_prefix=dict(img='path/to/your/train/img'),
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 
@@ -201,7 +201,7 @@ val_dataloader = dict(
         data_root='root/of/your/val/data',
         ann_file='path/to/your/val/json',
         data_prefix=dict(img='path/to/your/val/img'),
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 
@@ -212,7 +212,7 @@ test_dataloader = dict(
         data_root='root/of/your/test/data',
         ann_file='path/to/your/test/json',
         data_prefix=dict(img='path/to/your/test/img'),
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 ...

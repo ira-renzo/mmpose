@@ -126,7 +126,7 @@ train_dataloader = dict(
         ann_file='path/to/your/train/json',
         data_prefix=dict(img='path/to/your/train/img'),
         # 指定对应的元信息配置文件
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 val_dataloader = dict(
@@ -137,7 +137,7 @@ val_dataloader = dict(
         ann_file='path/to/your/val/json',
         data_prefix=dict(img='path/to/your/val/img'),
         # 指定对应的元信息配置文件
-        metainfo=dict(from_file='configs/_base_/datasets/custom.py'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         ...),
     )
 test_dataloader = val_dataloader
