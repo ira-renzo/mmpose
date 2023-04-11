@@ -112,7 +112,7 @@ val_pipeline = [
 
 # data loaders
 train_dataloader = dict(
-    batch_size=64,
+    batch_size=8,
     num_workers=2,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -122,6 +122,7 @@ train_dataloader = dict(
         data_mode=data_mode,
         ann_file='swim1/annotations/person_keypoints_default.json',
         data_prefix=dict(img='swim1/images/'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         pipeline=train_pipeline,
     ))
 # noinspection DuplicatedCode
@@ -137,6 +138,7 @@ val_dataloader = dict(
         data_mode=data_mode,
         ann_file='swim2/annotations/person_keypoints_default.json',
         data_prefix=dict(img='swim2/images/'),
+        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
         test_mode=True,
         pipeline=val_pipeline,
     ))
