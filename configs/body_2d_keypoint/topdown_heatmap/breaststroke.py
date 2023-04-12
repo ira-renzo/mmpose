@@ -24,7 +24,6 @@ param_scheduler = [
 ]
 
 # automatically scaling LR based on the actual training batch size
-# noinspection DuplicatedCode
 auto_scale_lr = dict(base_batch_size=512)
 
 # hooks
@@ -32,7 +31,7 @@ default_hooks = dict(checkpoint=dict(save_best='coco/AP', rule='greater'))
 
 # codec settings
 codec = dict(
-    type='MSRAHeatmap', input_size=(288, 384), heatmap_size=(72, 96), sigma=3)
+    type='MSRAHeatmap', input_size=(192, 256), heatmap_size=(48, 64), sigma=2)
 
 # model settings
 model = dict(
@@ -50,8 +49,8 @@ model = dict(
                 num_modules=1,
                 num_branches=1,
                 block='BOTTLENECK',
-                num_blocks=(4,),
-                num_channels=(64,)),
+                num_blocks=(4, ),
+                num_channels=(64, )),
             stage2=dict(
                 num_modules=1,
                 num_branches=2,
@@ -72,12 +71,13 @@ model = dict(
                 num_channels=(32, 64, 128, 256))),
         init_cfg=dict(
             type='Pretrained',
-            checkpoint='https://download.openmmlab.com/mmpose/pretrain_models/hrnet_w32-36af842e.pth'),
+            checkpoint='https://download.openmmlab.com/mmpose/'
+            'pretrain_models/hrnet_w32-36af842e.pth'),
     ),
     head=dict(
         type='HeatmapHead',
         in_channels=32,
-        out_channels=17,
+        out_channels=7,
         deconv_out_channels=None,
         loss=dict(type='KeypointMSELoss', use_target_weight=True),
         decoder=codec),
@@ -90,7 +90,7 @@ model = dict(
 # base dataset settings
 dataset_type = 'BreaststrokeDataset'
 data_mode = 'topdown'
-data_root = 'main/'
+data_root = '/content/drive/MyDrive/data/'
 
 # pipelines
 train_pipeline = [
@@ -112,7 +112,7 @@ val_pipeline = [
 
 # data loaders
 train_dataloader = dict(
-    batch_size=8,
+    batch_size=64,
     num_workers=2,
     persistent_workers=True,
     sampler=dict(type='DefaultSampler', shuffle=True),
@@ -120,12 +120,10 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='swim1/annotations/person_keypoints_default.json',
-        data_prefix=dict(img='swim1/images/'),
-        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
+        ann_file='swim1.json',
+        data_prefix=dict(img='swim1/'),
         pipeline=train_pipeline,
     ))
-# noinspection DuplicatedCode
 val_dataloader = dict(
     batch_size=32,
     num_workers=2,
@@ -136,9 +134,8 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='swim2/annotations/person_keypoints_default.json',
-        data_prefix=dict(img='swim2/images/'),
-        metainfo=dict(from_file='configs/_base_/datasets/breaststroke.py'),
+        ann_file='swim1.json',
+        data_prefix=dict(img='swim1/'),
         test_mode=True,
         pipeline=val_pipeline,
     ))
@@ -147,5 +144,5 @@ test_dataloader = val_dataloader
 # evaluators
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'swim2/annotations/person_keypoints_default.json')
+    ann_file=data_root + 'swim1.json')
 test_evaluator = val_evaluator
