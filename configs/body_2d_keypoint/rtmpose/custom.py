@@ -1,4 +1,4 @@
-_base_ = ['../../../_base_/default_runtime.py']
+_base_ = ['../../_base_/default_runtime.py']
 
 # runtime
 max_epochs = 420
@@ -59,9 +59,9 @@ model = dict(
         type='CSPNeXt',
         arch='P5',
         expand_ratio=0.5,
-        deepen_factor=0.167,
-        widen_factor=0.375,
-        out_indices=(4,),
+        deepen_factor=0.33,
+        widen_factor=0.5,
+        out_indices=(4, ),
         channel_attention=True,
         norm_cfg=dict(type='SyncBN'),
         act_cfg=dict(type='SiLU'),
@@ -69,11 +69,11 @@ model = dict(
             type='Pretrained',
             prefix='backbone.',
             checkpoint='https://download.openmmlab.com/mmpose/v1/projects/'
-                       'rtmpose/cspnext-tiny_udp-aic-coco_210e-256x192-cbed682d_20230130.pth'  # noqa
+            'rtmpose/cspnext-s_udp-aic-coco_210e-256x192-92f5a029_20230130.pth'  # noqa
         )),
     head=dict(
         type='RTMCCHead',
-        in_channels=384,
+        in_channels=512,
         out_channels=17,
         input_size=codec['input_size'],
         in_featuremap_size=(6, 8),
@@ -99,12 +99,11 @@ model = dict(
 # base dataset settings
 dataset_type = 'BreaststrokeDataset'
 data_mode = 'topdown'
-data_root = 'data/'
+data_root = '/content/drive/MyDrive/data/'
 
 backend_args = dict(backend='local')
 
 # pipelines
-# noinspection DuplicatedCode
 train_pipeline = [
     dict(type='LoadImage', backend_args=backend_args),
     dict(type='GetBBoxCenterScale'),
@@ -180,8 +179,8 @@ train_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='swim1/annotations/person_keypoints_default.json',
-        data_prefix=dict(img='swim1/images/'),
+        ann_file='swim1.json',
+        data_prefix=dict(img='swim1/'),
         pipeline=train_pipeline,
     ))
 val_dataloader = dict(
@@ -194,8 +193,8 @@ val_dataloader = dict(
         type=dataset_type,
         data_root=data_root,
         data_mode=data_mode,
-        ann_file='swim2/annotations/person_keypoints_default.json',
-        data_prefix=dict(img='swim2/images/'),
+        ann_file='swim1.json',
+        data_prefix=dict(img='swim1/'),
         test_mode=True,
         pipeline=val_pipeline,
     ))
@@ -206,13 +205,12 @@ default_hooks = dict(
     checkpoint=dict(save_best='coco/AP', rule='greater', max_keep_ckpts=1))
 
 custom_hooks = [
-    # Turn off EMA while training the tiny model
-    # dict(
-    #     type='EMAHook',
-    #     ema_type='ExpMomentumEMA',
-    #     momentum=0.0002,
-    #     update_buffers=True,
-    #     priority=49),
+    dict(
+        type='EMAHook',
+        ema_type='ExpMomentumEMA',
+        momentum=0.0002,
+        update_buffers=True,
+        priority=49),
     dict(
         type='mmdet.PipelineSwitchHook',
         switch_epoch=max_epochs - stage2_num_epochs,
@@ -222,5 +220,5 @@ custom_hooks = [
 # evaluators
 val_evaluator = dict(
     type='CocoMetric',
-    ann_file=data_root + 'swim2/annotations/person_keypoints_default.json')
+    ann_file=data_root + 'swim1.json')
 test_evaluator = val_evaluator
